@@ -38,20 +38,28 @@ CREATE TABLE IF NOT EXISTS category(
 CREATE TABLE IF NOT EXISTS products(
     id INTEGER PRIMARY KEY,
     name TEXT(32) NOT NULL,
+    descr TEXT NOT NULL,
     category_id INT NOT NULL,
-    os_id INT NOT NULL,
-    curr_price REAL NOT NULL,
-    descr TEXT, 
-    FOREIGN KEY (category_id) REFERENCES category(id),
-    FOREIGN KEY (os_id) REFERENCES os(id)
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
-CREATE TABLE IF NOT EXISTS purchases(
+CREATE TABLE IF NOT EXISTS instance_products(
+    id INTEGER PRIMARY KEY,
+    prod_id INTEGER NOT NULL,
+    os_id INT NOT NULL,
+    curr_price REAL NOT NULL,
+    FOREIGN KEY (os_id) REFERENCES os(id),
+    FOREIGN KEY (prod_id) REFERENCES products(id)
+);
+
+
+
+CREATE TABLE purchases(
     id INTEGER PRIMARY KEY,
     date DATETIME NOT NULL,
     product_id INT NOT NULL,
     price REAL NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    FOREIGN KEY (product_id) REFERENCES instance_products(id)
 );
 
 CREATE TABLE IF NOT EXISTS dev_products(
@@ -59,7 +67,7 @@ CREATE TABLE IF NOT EXISTS dev_products(
     programmers_id INT NOT NULL,
     product_id INT NOT NULL,
     FOREIGN KEY (programmers_id) REFERENCES programmers(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    FOREIGN KEY (product_id) REFERENCES instance_products(id)
 );
 
 INSERT INTO qualification (status) VALUES ('Junior');
@@ -93,17 +101,27 @@ INSERT INTO lang_knowledge (programmers_id, language_id) VALUES (4, 1);
 INSERT INTO lang_knowledge (programmers_id, language_id) VALUES (4, 3);
 INSERT INTO lang_knowledge (programmers_id, language_id) VALUES (5, 4);
 
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Crossout Mobile','Racing for children 5-7 years old', 1, 1, 5.8);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Tik Fok', 'Social app for teenagers', 1, 2, 12.98);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Mimo', 'A daily planner with a schedule and an alarm clock', 3, 1, 10.00);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Mimo', 'A daily planner with a schedule and an alarm clock', 3, 2, 21.30);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('EdX', 'Notes, recipes', 3, 3, 1.0);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Sim Soti', 'A game in which you need to build cities', 1, 1, 0.0);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Pazzle', 'Solving puzzles and puzzles', 1, 2, 0.0);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Funny Office', 'Mobile Office', 2, 1, 9.9);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Funny Office', 'Mobile Office', 2, 2, 34.9);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Clev Calc', 'Calculator with an extended set of functions', 2, 3, 0.0);
-INSERT INTO products (name, descr, category_id, os_id, curr_price) VALUES ('Clev Calc', 'Calculator with an extended set of functions', 2, 1, 0.0);
+INSERT INTO products(name, descr, category_id) VALUES('Crossout Mobile', 'Racing for children 5-7 years old', 1);
+INSERT INTO products(name, descr, category_id) VALUES('Tik Fok', 'Social app for teenagers', 1);
+INSERT INTO products(name, descr, category_id) VALUES('Mimo', 'A daily planner with a schedule and an alarm clock', 2);
+INSERT INTO products(name, descr, category_id) VALUES('EdX', 'Notes, recipes', 2);
+INSERT INTO products(name, descr, category_id) VALUES('Sim Soti', 'A game in which you need to build cities', 1);
+INSERT INTO products(name, descr, category_id) VALUES('Pazzle', 'Solving puzzles and puzzles', 3);
+INSERT INTO products(name, descr, category_id) VALUES('Funny Office', 'Mobile Office', 2);
+INSERT INTO products(name, descr, category_id) VALUES('Clev Calc', 'Calculator with an extended set of functions', 2);
+
+
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (1, 1, 5.8);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (2, 2, 12.98);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (3, 1, 10.00);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (3, 2, 21.30);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (4, 3, 1.0);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (5, 1, 0.0);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (6, 2, 0.0);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (7, 1, 9.9);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (7, 2, 34.9);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (8, 3, 0.0);
+INSERT INTO instance_products (prod_id, os_id, curr_price) VALUES (8, 1, 0.0);
 
 INSERT INTO dev_products (programmers_id, product_id) VALUES (1, 1);
 INSERT INTO dev_products (programmers_id, product_id) VALUES (4, 2);
